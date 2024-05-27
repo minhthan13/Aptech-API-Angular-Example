@@ -242,6 +242,7 @@ D:\Aptech\Example\API\obj\Debug\net8.0\API.AssemblyInfo.cs
 D:\Aptech\Example\API\obj\Debug\net8.0\API.csproj.CoreCompileInputs.cache
 D:\Aptech\Example\API\obj\Debug\net8.0\API.MvcApplicationPartsAssemblyInfo.cs
 D:\Aptech\Example\API\obj\Debug\net8.0\API.MvcApplicationPartsAssemblyInfo.cache
+D:\Aptech\Example\API\obj\Debug\net8.0\API.sourcelink.json
 D:\Aptech\Example\API\obj\Debug\net8.0\staticwebassets.build.json
 D:\Aptech\Example\API\obj\Debug\net8.0\staticwebassets.development.json
 D:\Aptech\Example\API\obj\Debug\net8.0\staticwebassets\msbuild.API.Microsoft.AspNetCore.StaticWebAssets.props
