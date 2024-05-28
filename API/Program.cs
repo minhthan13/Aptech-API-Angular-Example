@@ -21,7 +21,7 @@ public class Program
     builder.Services.AddMyService();
     //=========
 
-    builder.Services.AddAuthentication();
+    builder.Services.AddJWTTokenConfig(builder.Configuration);
     builder.Services.AddAuthorization();
 
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,7 +35,14 @@ public class Program
     {
       app.UseSwaggerConfig();
     }
-    app.UseMiddleware<ExceptionMiddleware>();
+    app.UseCors(c => c
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+        .SetIsOriginAllowed((host) => true)
+        .WithOrigins("https://localhost:4200/", "https://localhost:4200/"));
+
+    app.UseMiddleware<HttpExceptionMiddleware>();
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();

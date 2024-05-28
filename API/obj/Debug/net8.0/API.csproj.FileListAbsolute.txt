@@ -257,3 +257,4 @@ D:\Aptech\Example\API\obj\Debug\net8.0\refint\API.dll
 D:\Aptech\Example\API\obj\Debug\net8.0\API.pdb
 D:\Aptech\Example\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 D:\Aptech\Example\API\obj\Debug\net8.0\ref\API.dll
+D:\Aptech\Example\API\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

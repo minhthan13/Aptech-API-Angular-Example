@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
 using API.Services;
+using API.Services.Auth;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Configs
@@ -24,6 +25,7 @@ namespace API.Configs
     public static void AddMyService(this IServiceCollection services)
     {
       services.AddScoped<AccountService, AccountServiceImpl>();
+      services.AddScoped<TokenService, TokenServiceImpl>();
     }
   }
 }

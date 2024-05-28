@@ -32,5 +32,7 @@ namespace API.Entities
     [ForeignKey("EmployeeId")]
     [InverseProperty("Employees")]
     public virtual ICollection<Role> Roles { get; set; } = [];
+    [InverseProperty("Employee")]
+    public virtual ICollection<Token> Tokens { get; set; } = [];
   }
 }

@@ -1,43 +1,60 @@
-﻿using System.Net;
+﻿using API.Exceptions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
+using System.Net;
 using System.Text.Json;
-using API.Exceptions;
+using System.Threading.Tasks;
 
-namespace API.Middleware;
-
-public class ExceptionMiddleware
+namespace API.Middleware
 {
-  private readonly IHostEnvironment _env;
-  private readonly ILogger<ExceptionMiddleware> _logger;
-  private readonly RequestDelegate _next;
-
-  public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger, IHostEnvironment env)
+  // You may need to install the Microsoft.AspNetCore.Http.Abstractions package into your project
+  public class HttpExceptionMiddleware
   {
-    _env = env;
-    _next = next;
-    _logger = logger;
+    private readonly RequestDelegate _next;
+    private readonly ILogger<HttpExceptionMiddleware> logger;
+    private readonly IHostEnvironment env;
+
+    public HttpExceptionMiddleware(RequestDelegate next, IHostEnvironment _env, ILogger<HttpExceptionMiddleware> _logger)
+    {
+      _next = next;
+      logger = _logger;
+      env = _env;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+      try
+      {
+        Debug.WriteLine("check Middleware");
+        await _next(context);
+      }
+      catch (Exception ex)
+      {
+        logger.LogError(ex, ex.Message);
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+        var response = env.IsDevelopment()
+            ? new ErrorResponse(context.Response.StatusCode, ex.Message + ex.StackTrace)
+            : new ErrorResponse(context.Response.StatusCode);
+
+        var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+        var json = JsonSerializer.Serialize(response, options);
+
+        await context.Response.WriteAsync(json);
+      }
+
+    }
   }
 
-  public async Task InvokeAsync(HttpContext context)
+  // Extension method used to add the middleware to the HTTP request pipeline.
+  public static class HttpExceptionMiddlewareExtensions
   {
-    try
+    public static IApplicationBuilder UseHttpExceptionMiddleware(this IApplicationBuilder builder)
     {
-      await _next(context);
-    }
-    catch (Exception ex)
-    {
-      _logger.LogError(ex, ex.Message);
-      context.Response.ContentType = "application/json";
-      context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-      var response = _env.IsDevelopment()
-          ? new ErrorResponse(context.Response.StatusCode, ex.Message + ex.StackTrace)
-          : new ErrorResponse(context.Response.StatusCode);
-
-      var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
-      var json = JsonSerializer.Serialize(response, options);
-
-      await context.Response.WriteAsync(json);
+      return builder.UseMiddleware<HttpExceptionMiddleware>();
     }
   }
 }
