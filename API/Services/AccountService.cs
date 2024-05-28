@@ -10,5 +10,6 @@ namespace API.Services
   public interface AccountService
   {
     Task<List<ResUser>> GetAccountsAsync();
+    Task<ResUser> GetAccountIdAsync(int id);
   }
 }

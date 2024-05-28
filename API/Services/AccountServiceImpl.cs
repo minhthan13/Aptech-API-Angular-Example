@@ -15,6 +15,13 @@ namespace API.Services
     {
       db = _db;
     }
+
+    public async Task<ResUser> GetAccountIdAsync(int id)
+    {
+      var user = await db.Employees.FindAsync(id);
+      return new ResUser(user);
+    }
+
     public async Task<List<ResUser>> GetAccountsAsync()
     {
       return await db.Employees.Include(e => e.Roles).Select(e => new ResUser(e)).ToListAsync();

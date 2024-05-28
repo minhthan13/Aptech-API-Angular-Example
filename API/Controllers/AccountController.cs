@@ -26,19 +26,33 @@ namespace API.Controllers
     {
       try
       {
-        var account = await accountService.GetAccountsAsync();
-        if (account is null) return NotFound(new ErrorResponse(404));
-        return Ok(account);
+        var accounts = await accountService.GetAccountsAsync();
+        if (accounts is null) return NotFound(new ErrorResponse(404));
+        return Ok(new ApiResponse(accounts, "get all account success"));
       }
       catch
       {
         return BadRequest(new ErrorResponse(400));
       }
+    }
 
+    [HttpGet("getAccountId/{id}")]
+    [Produces("application/json")]
+    public async Task<IActionResult> getAccountId(int id)
+    {
+      try
+      {
+        var account = await accountService.GetAccountIdAsync(id);
+        if (account is null) return NotFound(new ErrorResponse(404));
+        return Ok(new ApiResponse(account, $"get account ID: {id} success"));
+      }
+      catch
+      {
+        return BadRequest(new ErrorResponse(400));
+      }
     }
 
   }
-
 
 
 

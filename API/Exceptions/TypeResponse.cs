@@ -4,11 +4,11 @@ public class ErrorResponse
 {
   public ErrorResponse(int statusCode, string? message = null)
   {
-    StatusCode = statusCode;
+    code = statusCode;
     Message = message ?? GetDefaultMessageForStatusCode(statusCode);
   }
 
-  public int StatusCode { get; set; }
+  public int code { get; set; }
 
   public string Message { get; set; }
 
@@ -22,5 +22,17 @@ public class ErrorResponse
       500 => "Server error",
       _ => null
     };
+  }
+}
+public class ApiResponse
+{
+  public object data { get; set; }
+  public int code { get; set; }
+  public string message { get; set; }
+  public ApiResponse(object _data, string _message)
+  {
+    data = _data;
+    code = 200;
+    message = _message;
   }
 }
