@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Entities;
 using API.Exceptions;
 using API.Models;
 using API.Services;
@@ -76,33 +77,56 @@ namespace API.Controllers
 
     [HttpPost("Login")]
     [Produces("application/json")]
-    public async Task<IActionResult> Login()
+    [Consumes("application/json")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
     {
       try
       {
-        var AT = tokenService.GenAccessToken(2);
-        var RT = tokenService.GenRefreshToken();
-        var data = new
+        if (await accountService.Login(loginRequest))
         {
-          access_token = AT,
-          refresh_token = RT
-        };
-        if (await tokenService.SaveTokenAsync(2, AT, RT))
-        {
-
-          return Ok(new ApiResponse(data, "Login Success"));
+          UserDto user = await accountService.GetAccountUsernameAsync(loginRequest.Username);
+          var access_token = tokenService.GenAccessToken(user.id);
+          var refresh_token = tokenService.GenRefreshToken();
+          if (await tokenService.SaveTokenAsync(user.id, access_token, refresh_token))
+          {
+            return Ok(new ApiResponse(new { access_token, refresh_token }, "Login Success"));
+          }
+          else
+          {
+            return BadRequest(new ErrorResponse(400));
+          }
         }
         else
         {
-          return BadRequest(new ErrorResponse(404));
+          return BadRequest(new ErrorResponse(400));
         }
       }
-      catch
+      catch (BadRequestException ex)
       {
-        return BadRequest();
+        return BadRequest(new ErrorResponse(400, ex.Message));
       }
     }
-
+    [HttpPost("refresh-token")]
+    [Produces("application/json")]
+    public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
+    {
+      try
+      {
+        var access_token = await tokenService.RefreshTokenAsync(refreshToken);
+        if (access_token is null)
+        {
+          return Unauthorized(new ErrorResponse(401));
+        }
+        else
+        {
+          return Ok(new ApiResponse(new { access_token }, "refresh token success"));
+        }
+      }
+      catch (BadRequestException ex)
+      {
+        return Unauthorized(new ErrorResponse(401, ex.Message));
+      }
+    }
 
   }
 

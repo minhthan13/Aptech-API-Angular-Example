@@ -6,7 +6,7 @@ using API.Entities;
 
 namespace API.Models
 {
-  public class ResUser
+  public class UserDto
   {
     public int id { get; set; }
     public string name { get; set; }
@@ -15,7 +15,7 @@ namespace API.Models
     public string photo { get; set; }
     public object roles { get; set; }
 
-    public ResUser(Employee employee)
+    public UserDto(Employee employee)
     {
       id = employee.Id;
       name = employee.Username;

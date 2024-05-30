@@ -22,7 +22,7 @@ namespace API.Entities
     [Column(TypeName = "datetime")]
     public DateTime Dob { get; set; }
     [StringLength(250)]
-    public required string Photo { get; set; }
+    public string? Photo { get; set; } = null;
 
     [InverseProperty("EmployeeSubmiter")]
     public virtual ICollection<Request> RequestEmployeeSubmiters { get; set; } = [];

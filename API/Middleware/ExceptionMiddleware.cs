@@ -26,7 +26,6 @@ namespace API.Middleware
     {
       try
       {
-        Debug.WriteLine("check Middleware");
         await _next(context);
       }
       catch (Exception ex)

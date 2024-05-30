@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ApiExampleContext))]
-    [Migration("20240528135728_tokenTable")]
-    partial class tokenTable
+    [Migration("20240530151511_update2")]
+    partial class update2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Photo")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")

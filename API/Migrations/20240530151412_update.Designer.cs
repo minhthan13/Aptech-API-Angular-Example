@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(ApiExampleContext))]
-    [Migration("20240525154858_createdDatabase")]
-    partial class createdDatabase
+    [Migration("20240530151412_update")]
+    partial class update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Photo")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")
@@ -149,6 +148,36 @@ namespace API.Migrations
                     b.ToTable("Role");
                 });
 
+            modelBuilder.Entity("API.Entities.Token", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccessToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id")
+                        .HasName("PK_Token");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Token");
+                });
+
             modelBuilder.Entity("EmployeeRole", b =>
                 {
                     b.Property<int>("EmployeeId")
@@ -195,6 +224,17 @@ namespace API.Migrations
                     b.Navigation("Priorities");
                 });
 
+            modelBuilder.Entity("API.Entities.Token", b =>
+                {
+                    b.HasOne("API.Entities.Employee", "Employee")
+                        .WithMany("Tokens")
+                        .HasForeignKey("EmployeeId")
+                        .IsRequired()
+                        .HasConstraintName("FK_Token_Employee");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("EmployeeRole", b =>
                 {
                     b.HasOne("API.Entities.Employee", null)
@@ -215,6 +255,8 @@ namespace API.Migrations
                     b.Navigation("RequestEmployeeHandlers");
 
                     b.Navigation("RequestEmployeeSubmiters");
+
+                    b.Navigation("Tokens");
                 });
 
             modelBuilder.Entity("API.Entities.Priority", b =>

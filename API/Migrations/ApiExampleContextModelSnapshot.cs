@@ -46,7 +46,6 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Photo")
-                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)")

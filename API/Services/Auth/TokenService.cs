@@ -11,6 +11,7 @@ namespace API.Services.Auth
   public interface TokenService
   {
     Task<TokenDto> GetTokenAsync(string refreshToken);
+    Task<string> RefreshTokenAsync(string refreshToken);
     Task<bool> SaveTokenAsync(int userId, string accessToken, string refreshToken);
     Task<bool> DeleteTokenAsync(Token token);
     string GenAccessToken(int userId);
