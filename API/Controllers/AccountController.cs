@@ -24,55 +24,6 @@ namespace API.Controllers
       accountService = _accountService;
       tokenService = _tokenService;
     }
-    [HttpGet("getAccounts")]
-    [Produces("application/json")]
-    [Authorize]
-    public async Task<IActionResult> getAccount()
-    {
-      try
-      {
-        var accounts = await accountService.GetAccountsAsync();
-        if (accounts is null) return NotFound(new ErrorResponse(404));
-        return Ok(new ApiResponse(accounts, "get all account success"));
-      }
-      catch
-      {
-        return BadRequest(new ErrorResponse(400));
-      }
-    }
-
-    [HttpGet("getAccountId/{id}")]
-    [Produces("application/json")]
-    public async Task<IActionResult> getAccountId(int id)
-    {
-      try
-      {
-        var account = await accountService.GetAccountIdAsync(id);
-        if (account is null) return NotFound(new ErrorResponse(404));
-        return Ok(new ApiResponse(account, $"get account ID: {id} success"));
-      }
-      catch
-      {
-        return BadRequest(new ErrorResponse(400));
-      }
-    }
-
-
-
-    [HttpGet("getToken/{refreshToken}")]
-    [Produces("application/json")]
-    public async Task<IActionResult> getToken(string refreshToken)
-    {
-      try
-      {
-
-        return Ok(await tokenService.GetTokenAsync(refreshToken));
-      }
-      catch
-      {
-        return BadRequest();
-      }
-    }
 
 
     [HttpPost("Login")]
@@ -127,7 +78,38 @@ namespace API.Controllers
         return Unauthorized(new ErrorResponse(401, ex.Message));
       }
     }
+    [HttpGet("getAccounts")]
+    [Produces("application/json")]
+    [Authorize]
+    public async Task<IActionResult> getAccount()
+    {
+      try
+      {
+        var accounts = await accountService.GetAccountsAsync();
+        if (accounts is null) return NotFound(new ErrorResponse(404));
+        return Ok(new ApiResponse(accounts, "get all account success"));
+      }
+      catch
+      {
+        return BadRequest(new ErrorResponse(400));
+      }
+    }
 
+    [HttpGet("getAccountId/{id}")]
+    [Produces("application/json")]
+    public async Task<IActionResult> getAccountId(int id)
+    {
+      try
+      {
+        var account = await accountService.GetAccountIdAsync(id);
+        if (account is null) return NotFound(new ErrorResponse(404));
+        return Ok(new ApiResponse(account, $"get account ID: {id} success"));
+      }
+      catch
+      {
+        return BadRequest(new ErrorResponse(400));
+      }
+    }
   }
 
 

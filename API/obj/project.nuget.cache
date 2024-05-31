@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hRr61pJEcCI=",
+  "dgSpecHash": "P4fJZpjs4vA=",
   "success": true,
-  "projectFilePath": "D:\\Aptech\\Example\\API\\API.csproj",
+  "projectFilePath": "D:\\Aptech\\API-Angular-Example\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nguye\\.nuget\\packages\\aspnetcorehero.toastnotification\\1.1.0\\aspnetcorehero.toastnotification.1.1.0.nupkg.sha512",
     "C:\\Users\\nguye\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
