@@ -9,7 +9,7 @@ namespace API.Models
   public class UserDto
   {
     public int id { get; set; }
-    public string name { get; set; }
+    public string username { get; set; }
     public string? fullName { get; set; }
     public string DoB { get; set; }
     public string photo { get; set; }
@@ -18,7 +18,7 @@ namespace API.Models
     public UserDto(Employee employee)
     {
       id = employee.Id;
-      name = employee.Username;
+      username = employee.Username;
       fullName = employee.FullName ?? "";
       DoB = employee.Dob.ToString("dd/MM/yyyy");
       photo = employee.Photo;

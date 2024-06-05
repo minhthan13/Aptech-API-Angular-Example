@@ -15,6 +15,8 @@ import {
 import { AuthService } from '../../../services/auth.service';
 import { error } from 'console';
 import { ResModel } from '../../../@models/resModel';
+import { UserDto } from '../../../@models/UserDto';
+import { UserObjService } from '../../../services/userObj.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -30,10 +32,14 @@ import { ResModel } from '../../../@models/resModel';
   host: { 'collision-id': 'LoginComponent' },
 })
 export class LoginComponent implements OnInit {
-  router = inject(Router);
-  formBuilder = inject(FormBuilder);
   loginForm: FormGroup;
-  authService = inject(AuthService);
+
+  constructor(
+    private authService: AuthService,
+    private userObjService: UserObjService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) {}
   ngOnInit(): void {
     this.initFormLogin();
   }
@@ -42,8 +48,12 @@ export class LoginComponent implements OnInit {
       alert('invalid');
     } else {
       this.authService.Login(this.loginForm.value).then(
-        (res) => {
-          if (res && res.code === 200) {
+        (res: ResModel) => {
+          if (res.data || res.code === 200) {
+            let user: UserDto = res.data as UserDto;
+            console.log('>>> resdata:', res.data);
+
+            this.userObjService.setUser(user);
             this.router.navigate(['/dashboard']);
           }
         },

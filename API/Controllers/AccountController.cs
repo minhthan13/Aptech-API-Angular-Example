@@ -40,7 +40,18 @@ namespace API.Controllers
           var refresh_token = tokenService.GenRefreshToken();
           if (await tokenService.SaveTokenAsync(user.id, access_token, refresh_token))
           {
-            return Ok(new ApiResponse(new { access_token, refresh_token }, "Login Success"));
+            var response = new
+            {
+              user.id,
+              user.username,
+              fullname = user.fullName,
+              dob = user.DoB,
+              user.photo,
+              user.roles,
+              access_token,
+              refresh_token
+            };
+            return Ok(new ApiResponse(response, "Login Success"));
           }
           else
           {
