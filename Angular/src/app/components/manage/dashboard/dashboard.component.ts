@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, Signal, signal } from '@angular/core';
 import { UserDto } from '../../../@models/UserDto';
 import { UserObjService } from '../../../services/userObj.service';
+import { UserSignalService } from '../../../services/user-signal.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,14 +12,28 @@ import { UserObjService } from '../../../services/userObj.service';
   host: { 'collision-id': 'DashboardComponent' },
 })
 export class DashboardComponent implements OnInit {
-  MyUser: UserDto;
-  constructor(private userObjService: UserObjService) {}
+  // MyUser = signal<UserDto | null>(null);
+  constructor(
+    private userObjService: UserObjService,
+    private userSignal: UserSignalService,
+    private injector: Injector
+  ) {
+    let MyUser = this.userSignal.getUserSignal();
+    // effect(
+    //   () => {
+    //     this.MyUser();
+    //   },
+    //   { injector: this.injector }
+    // );
+    let username = MyUser?.username;
+    console.log('>> check user dashboard ', username);
+  }
   ngOnInit(): void {
-    this.userObjService.user$?.subscribe((user) => {
-      if (user) {
-        this.MyUser = user;
-        console.log('>>> user: ', this.MyUser);
-      }
-    });
+    // this.userObjService.user$?.subscribe((user) => {
+    //   if (user) {
+    //     this.MyUser = user;
+    //     // console.log('>>> user: ', this.MyUser);
+    //   }
+    // });
   }
 }
