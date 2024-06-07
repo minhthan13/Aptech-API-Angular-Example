@@ -46,5 +46,6 @@ dotnet ef database update
 > **ANGULAR**
 
 ```scala
-
+> Toast
+npm i ngx-toastr
 ```
