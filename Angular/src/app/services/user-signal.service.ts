@@ -15,12 +15,12 @@ export class UserSignalService {
         userStorage = JSON.parse(storedUser);
       }
     }
-    this.user$ = signal(userStorage);
+    this.user$.set(userStorage);
   }
 
   setUserSignal(user: UserDto) {
     if (this.user$ != null) {
-      this.user$ = signal(user);
+      this.user$.set(user);
     }
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(ENVIROMENT.USER_STORAGE, JSON.stringify(user));
@@ -28,5 +28,11 @@ export class UserSignalService {
   }
   getUserSignal() {
     return this.user$();
+  }
+  clearUser() {
+    this.user$.set(null);
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(ENVIROMENT.USER_STORAGE);
+    }
   }
 }

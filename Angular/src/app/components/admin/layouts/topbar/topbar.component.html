@@ -1,6 +1,9 @@
-<div class="card">
+<div class="card flex">
   <!-- <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button> -->
-  <p-button (click)="OpenSidebar()" icon="pi pi-arrow-right"></p-button>
+  <!-- <button icon="pi pi-list" class="btnOpenSidebar" size="small"></button> -->
+  <div class="btnOpenSidebar">
+    <i class="pi pi-bars" style="font-size: 1.4rem" (click)="OpenSidebar()"></i>
+  </div>
 
   <p-tabMenu [model]="items" class="custom-tab-menu" />
 </div>

@@ -16,6 +16,7 @@ import {
   withFetch,
 } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,8 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    ConfirmationService,
+    MessageService,
     provideHttpClient(withFetch()),
   ],
 };

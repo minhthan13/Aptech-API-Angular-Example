@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { CheckboxModule } from 'primeng/checkbox';
 import { ButtonModule } from 'primeng/button';
@@ -38,7 +31,6 @@ import { ToastrService } from 'ngx-toastr';
   ],
   templateUrl: './login.component.html',
   host: { 'collision-id': 'LoginComponent' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -49,11 +41,12 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private userSignal: UserSignalService,
-    private injector: Injector,
     private toastr: ToastrService
   ) {}
   ngOnInit(): void {
     this.initFormLogin();
+    let userSignal = this.userSignal.getUserSignal();
+    console.log('>>> Check user', userSignal);
   }
   login() {
     if (this.loginForm.invalid) {
@@ -63,15 +56,7 @@ export class LoginComponent implements OnInit {
         (res: ResModel) => {
           if (res.data || res.code === 200) {
             let user: UserDto = res.data as UserDto;
-
             this.userSignal.setUserSignal(user);
-            effect(
-              () => {
-                let getUser = this.userSignal.getUserSignal();
-                console.log('>>> user in service: ', getUser);
-              },
-              { injector: this.injector }
-            );
             this.toastr.success('login success', 'success');
             this.router.navigate(['/admin']);
           }
