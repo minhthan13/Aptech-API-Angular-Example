@@ -1,12 +1,11 @@
-import { Component, Injector, OnInit, Signal, signal } from '@angular/core';
-import { UserDto } from '../../../@models/UserDto';
+import { Component, Injector, OnInit } from '@angular/core';
 import { UserObjService } from '../../../services/userObj.service';
 import { UserSignalService } from '../../../services/user-signal.service';
-
+import { CardModule } from 'primeng/card';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [],
+  imports: [CardModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   host: { 'collision-id': 'DashboardComponent' },
@@ -26,7 +25,6 @@ export class DashboardComponent implements OnInit {
     //   { injector: this.injector }
     // );
     let username = MyUser?.username;
-    console.log('>> check user dashboard ', username);
   }
   ngOnInit(): void {
     // this.userObjService.user$?.subscribe((user) => {
