@@ -16,11 +16,10 @@ export class EmployeesComponent implements OnInit {
   ngOnInit(): void {
     this.employeeService.getAllAccount().then(
       (res: ResModel) => {
-        console.log(res);
         console.log(res.data);
       },
       (err) => {
-        console.log(err.message);
+        console.log('>>> Error: get account failed ');
       }
     );
   }

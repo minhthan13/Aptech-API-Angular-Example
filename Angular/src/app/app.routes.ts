@@ -20,6 +20,7 @@ const adminRoute: Routes = [
 ];
 export const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   ...adminRoute,
   { path: 'employees', redirectTo: 'admin/employees', pathMatch: 'full' },
   { path: 'dashboard', redirectTo: 'admin/dashboard', pathMatch: 'full' },

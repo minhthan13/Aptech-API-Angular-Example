@@ -13,16 +13,6 @@ import { ResModel } from '../../../../@models/resModel';
   host: { 'collision-id': 'DashboardComponent' },
 })
 export class DashboardComponent implements OnInit {
-  Refresh() {
-    this.authService.refreshToken().then(
-      (res: ResModel) => {
-        console.log(res);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
   // MyUser = signal<UserDto | null>(null);
   constructor(
     private userObjService: UserObjService,
@@ -38,6 +28,12 @@ export class DashboardComponent implements OnInit {
     // });
     let MyUser = this.userSignal.getUserSignal;
 
-    console.log(MyUser);
+    console.log('>>> User Signal in dashboard', MyUser);
+  }
+  async Refresh() {
+    await this.authService.refreshToken();
+  }
+  clear2() {
+    this.userSignal.clearUser2();
   }
 }
