@@ -6,7 +6,8 @@ import { ENVIROMENT } from '../enviroments/enviroment';
   providedIn: 'root',
 })
 export class UserSignalService {
-  private user$ = signal<UserDto | null>(null);
+  private user = signal<UserDto | null>(null);
+  readonly user$: Signal<UserDto> = this.user;
   constructor() {
     let userStorage: UserDto | null = null;
     if (typeof localStorage !== 'undefined') {
@@ -15,22 +16,20 @@ export class UserSignalService {
         userStorage = JSON.parse(storedUser);
       }
     }
-    this.user$.set(userStorage);
+    this.user.set(userStorage);
   }
 
   setUserSignal(user: UserDto) {
-    if (this.user$ != null) {
-      this.user$.set(user);
-    }
+    this.user.set(user);
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem(ENVIROMENT.USER_STORAGE, JSON.stringify(user));
     }
   }
-  getUserSignal() {
+  get getUserSignal() {
     return this.user$();
   }
   clearUser() {
-    this.user$.set(null);
+    this.user.set(null);
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem(ENVIROMENT.USER_STORAGE);
     }

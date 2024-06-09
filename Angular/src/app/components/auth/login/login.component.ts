@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.initFormLogin();
-    let userSignal = this.userSignal.getUserSignal();
+    let userSignal = this.userSignal.getUserSignal;
     console.log('>>> Check user', userSignal);
   }
   login() {

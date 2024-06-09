@@ -4,8 +4,9 @@ import { TopbarComponent } from './layouts/topbar/topbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { UserSignalService } from '../../services/user-signal.service';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-admin',
   standalone: true,
@@ -24,7 +25,7 @@ export class AdminComponent implements OnInit {
     private userSignal: UserSignalService,
     private router: Router,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private toastr: ToastrService
   ) {}
   ngOnInit(): void {}
   Logout(event: Event) {
@@ -34,6 +35,7 @@ export class AdminComponent implements OnInit {
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.userSignal.clearUser();
+        this.toastr.success('See Yout late !!', 'Log Out!');
         this.router.navigate(['/']);
       },
     });

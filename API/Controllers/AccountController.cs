@@ -108,6 +108,7 @@ namespace API.Controllers
 
     [HttpGet("getAccountId/{id}")]
     [Produces("application/json")]
+    [Authorize]
 
     public async Task<IActionResult> getAccountId(int id)
     {

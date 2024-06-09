@@ -5,5 +5,8 @@ export const ENVIROMENT = {
     AUTH: {
       LOGIN: '/account/login/',
     },
+    EMPLOYEES: {
+      Get_All: '/account/getAccounts/',
+    },
   },
 };

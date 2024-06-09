@@ -1,20 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  Injector,
-  OnInit,
-  signal,
-  Signal,
-  WritableSignal,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ButtonModule } from 'primeng/button';
 import { AdminLayoutService } from '../../admin.layout.service';
 import { Router } from '@angular/router';
-import { TestService } from '../../test.service';
 
 @Component({
   selector: 'app-topbar',
@@ -22,29 +11,19 @@ import { TestService } from '../../test.service';
   imports: [TabMenuModule, ButtonModule],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.css',
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopbarComponent implements OnInit {
   constructor(
     private adminLayoutService: AdminLayoutService,
-    private router: Router,
-    private testService: TestService,
-    private injector: Injector
+    private router: Router
   ) {}
   items: MenuItem[] | undefined;
   none: any;
-  count: number = 0;
-  topbarSignal: Signal<number>;
   ngOnInit() {
     this.initMenu();
-    this.topbarSignal = this.testService.number;
-    effect(
-      () => {
-        this.count = this.topbarSignal();
-        console.log(this.count);
-      },
-      { injector: this.injector }
-    );
+  }
+  OpenSidebar() {
+    this.adminLayoutService.HandleSidebar(true);
   }
   initMenu() {
     this.items = [
@@ -77,8 +56,5 @@ export class TopbarComponent implements OnInit {
         },
       },
     ];
-  }
-  OpenSidebar() {
-    this.adminLayoutService.HandleSidebar(true);
   }
 }

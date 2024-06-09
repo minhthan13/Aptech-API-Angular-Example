@@ -14,9 +14,11 @@ import {
   HttpClientModule,
   provideHttpClient,
   withFetch,
+  withInterceptors,
 } from '@angular/common/http';
 import { provideToastr } from 'ngx-toastr';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { authInterceptor } from './interceptors/Auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,13 +28,15 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     // BrowserAnimationsModule,
     HttpClientModule,
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    // toastify config
     provideToastr({
       timeOut: 3000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),
+    // from PrimeNg
     ConfirmationService,
     MessageService,
-    provideHttpClient(withFetch()),
   ],
 };
