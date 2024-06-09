@@ -70,6 +70,7 @@ namespace API.Controllers
     }
     [HttpPost("refresh-token")]
     [Produces("application/json")]
+    [Consumes("application/json")]
     public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
     {
       try

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserObjService } from '../../../../services/userObj.service';
 import { UserSignalService } from '../../../../services/user-signal.service';
 import { CardModule } from 'primeng/card';
+import { AuthService } from '../../../../services/auth.service';
+import { ResModel } from '../../../../@models/resModel';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -11,10 +13,21 @@ import { CardModule } from 'primeng/card';
   host: { 'collision-id': 'DashboardComponent' },
 })
 export class DashboardComponent implements OnInit {
+  Refresh() {
+    this.authService.refreshToken().then(
+      (res: ResModel) => {
+        console.log(res);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
   // MyUser = signal<UserDto | null>(null);
   constructor(
     private userObjService: UserObjService,
-    private userSignal: UserSignalService
+    private userSignal: UserSignalService,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     // this.userObjService.user$?.subscribe((user) => {

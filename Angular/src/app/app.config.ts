@@ -29,6 +29,7 @@ export const appConfig: ApplicationConfig = {
     // BrowserAnimationsModule,
     HttpClientModule,
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    //
     // toastify config
     provideToastr({
       timeOut: 3000,

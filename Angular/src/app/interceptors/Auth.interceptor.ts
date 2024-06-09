@@ -7,12 +7,18 @@ export function authInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
-  const authToken = inject(UserSignalService).getUserSignal?.access_token;
-  if (authToken) {
-    const newReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${authToken}`),
-    });
-    return next(newReq);
-  }
-  return next(req);
+  const clonedRequest = req.clone({
+    setHeaders: {
+      'Content-Type': 'application/json',
+    },
+  });
+  // const authToken = inject(UserSignalService).getUserSignal?.access_token;
+  // if (authToken) {
+  //   const newReq = req.clone({
+  //     headers: req.headers.set('Authorization', `Bearer ${authToken}`),
+  //   });
+  //   return next(newReq);
+  // }
+
+  return next(clonedRequest);
 }

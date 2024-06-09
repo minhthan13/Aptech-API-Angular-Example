@@ -4,6 +4,7 @@ export const ENVIROMENT = {
   END_POINT: {
     AUTH: {
       LOGIN: '/account/login/',
+      REFRESH_TOKEN: '/Account/refresh-token',
     },
     EMPLOYEES: {
       Get_All: '/account/getAccounts/',
