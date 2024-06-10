@@ -1,1 +1,45 @@
-<p>employees works!</p>
+<div class="card">
+  <!-- table -->
+  @if(accounts && accounts.length >0){
+  <p-table [value]="accounts" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Username</th>
+        <th>FullName</th>
+        <th>IMAGE</th>
+        <th>DOB</th>
+        <th>ROLE</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-accounts>
+      <tr>
+        <td>
+          {{ accounts.id }}
+        </td>
+        <td>
+          {{ accounts.username }}
+        </td>
+        <td>
+          {{ accounts.fullName }}
+        </td>
+        <td>
+          <img
+            src="assets/images/account/{{ accounts.photo }}"
+            width="40"
+            height="40"
+          />
+        </td>
+        <td>
+          {{ accounts.dob }}
+        </td>
+        <td>
+          @for(role of accounts.roles;track role){
+          <p-tag [value]="role.toUpperCase()" [severity]="getSeverity(role)" />
+          }
+        </td>
+      </tr>
+    </ng-template> </p-table
+  >}
+  <!-- table -->
+</div>

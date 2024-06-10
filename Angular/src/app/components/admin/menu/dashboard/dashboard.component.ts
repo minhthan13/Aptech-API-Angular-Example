@@ -4,6 +4,7 @@ import { UserSignalService } from '../../../../services/user-signal.service';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../../../services/auth.service';
 import { ResModel } from '../../../../@models/resModel';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -30,9 +31,7 @@ export class DashboardComponent implements OnInit {
 
     console.log('>>> User Signal in dashboard', MyUser);
   }
-  async Refresh() {
-    await this.authService.refreshToken();
-  }
+
   clear2() {
     this.userSignal.clearUser2();
   }

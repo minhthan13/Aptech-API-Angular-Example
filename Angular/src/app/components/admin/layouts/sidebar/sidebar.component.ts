@@ -14,6 +14,7 @@ import { Sidebar } from 'primeng/sidebar';
 import { AdminLayoutService } from '../../admin.layout.service';
 import { AsyncPipe } from '@angular/common';
 import { Subject, takeUntil } from 'rxjs';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,6 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
     AvatarModule,
     StyleClassModule,
     AsyncPipe,
+    RouterLink,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',

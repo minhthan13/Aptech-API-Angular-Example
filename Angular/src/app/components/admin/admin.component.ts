@@ -7,6 +7,7 @@ import { UserSignalService } from '../../services/user-signal.service';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ToastrService } from 'ngx-toastr';
+import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-admin',
   standalone: true,
@@ -17,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
     FooterComponent,
     SidebarComponent,
     ConfirmPopupModule,
+    NgClass,
   ],
   styleUrl: './admin.component.css',
 })

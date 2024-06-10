@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Aptech\\API-Angular-Example\\API\\API.csproj": {}
+    "d:\\Aptech\\API-Angular-Example\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\Aptech\\API-Angular-Example\\API\\API.csproj": {
+    "d:\\Aptech\\API-Angular-Example\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Aptech\\API-Angular-Example\\API\\API.csproj",
+        "projectUniqueName": "d:\\Aptech\\API-Angular-Example\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\Aptech\\API-Angular-Example\\API\\API.csproj",
+        "projectPath": "d:\\Aptech\\API-Angular-Example\\API\\API.csproj",
         "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "D:\\Aptech\\API-Angular-Example\\API\\obj\\",
+        "outputPath": "d:\\Aptech\\API-Angular-Example\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",

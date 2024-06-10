@@ -9,13 +9,14 @@
   </div>
 </div>
 
-<div class="layout-main-container">
+<div class="layout-main-container flex flex-row justify-content-center">
+  <div class="main">
+    <div class="layout-wrapper">
+      <router-outlet> </router-outlet>
+    </div>
+  </div>
   <div class="layout-sidebar">
     <app-sidebar />
-  </div>
-
-  <div class="layout-wrapper">
-    <router-outlet />
   </div>
 </div>
 

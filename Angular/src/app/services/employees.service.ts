@@ -10,7 +10,7 @@ import { ResModel } from '../@models/resModel';
 export class EmployeesService {
   baseURL = ENVIROMENT.API_URL;
   ENDPOINT = ENVIROMENT.END_POINT;
-  httpClient = inject(HttpClient);
+  constructor(private httpClient: HttpClient) {}
   getAllAccount() {
     return lastValueFrom(
       this.httpClient.get<ResModel>(

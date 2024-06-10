@@ -45,7 +45,7 @@ namespace API.Controllers
               user.id,
               user.username,
               fullname = user.fullName,
-              dob = user.DoB,
+              dob = user.Dob,
               user.photo,
               user.roles,
               access_token,

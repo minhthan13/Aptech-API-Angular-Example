@@ -1,7 +1,7 @@
 export interface UserDto {
   id: number;
   username: string;
-  fullname?: string;
+  fullName?: string;
   dob: string;
   photo: string;
   roles: string[];

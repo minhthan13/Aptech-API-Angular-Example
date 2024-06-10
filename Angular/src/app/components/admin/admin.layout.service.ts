@@ -7,6 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class AdminLayoutService {
   private SidebarOpen = new BehaviorSubject<boolean>(false);
   isSidebar$ = this.SidebarOpen.asObservable();
+
   HandleSidebar(status: boolean) {
     if (typeof status === 'boolean') {
       this.SidebarOpen.next(status);

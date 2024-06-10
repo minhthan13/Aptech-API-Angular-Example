@@ -40,12 +40,12 @@ namespace API.Services.Auth
     }
     public async Task<string?> RefreshTokenAsync(string refreshToken)
     {
-      var token = await db.Tokens.SingleOrDefaultAsync(t => t.RefreshToken == refreshToken);
+      var token = await db.Tokens.AsNoTracking().SingleOrDefaultAsync(t => t.RefreshToken == refreshToken);
       if (token is null) return null;
 
       if (token.ExpiryDate < DateTime.UtcNow)
       {
-        throw new BadRequestException(401, "refreshtoken has expired");
+        throw new BadRequestException(401, "Refresh Token has expired");
       }
 
       var newAccessToken = GenAccessToken(token.EmployeeId);

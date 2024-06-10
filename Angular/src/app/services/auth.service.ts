@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ENVIROMENT } from '../enviroments/enviroment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { ResModel } from '../@models/resModel';
 import { UserSignalService } from './user-signal.service';
@@ -28,73 +28,60 @@ export class AuthService {
       )
     );
   }
-  //===========================================================
-  refreshToken() {
-    let refreshToken = this.userSignal.getUserRefreshToken;
-    if (!refreshToken) {
-      this.toastr.error('No refresh token available', 'Error');
-      this.userSignal.clearUser();
-      return 0;
-    }
 
-    return lastValueFrom(
-      this.httpClient.post<ResModel>(
-        this.baseURL + this.ENDPOINT.AUTH.REFRESH_TOKEN,
-        refreshToken
-      )
-    )
-      .then((res) => {
-        if (res.data?.access_token) {
-          this.userSignal.setUserSignal({
-            ...this.userSignal.getUserSignal,
-            access_token: res.data.access_token,
-          });
-          this.toastr.success(res.message, 'Success');
-        } else {
-          this.userSignal.clearUser();
-          this.toastr.error('Failed to refresh token', 'Error');
-        }
-      })
-      .catch((err) => {
+  //=================================================
+  async refreshToken(): Promise<ResModel> {
+    const refreshTokens = this.userSignal?.getUserRefreshToken;
+
+    const jsonRT = JSON.stringify(refreshTokens);
+    try {
+      const res = await this.httpClient
+        .post<ResModel>(this.baseURL + this.ENDPOINT.AUTH.REFRESH_TOKEN, jsonRT)
+        .toPromise();
+
+      if (res && res.data) {
+        this.userSignal.setUserSignal({
+          ...this.userSignal.getUserSignal,
+          access_token: res.data.access_token,
+        });
+        return res;
+      } else {
         this.userSignal.clearUser();
-        let mess = err.error?.message ?? 'Failed to refresh token';
-        this.toastr.error(mess, 'Error');
-      });
+        throw new Error('Failed to refresh token');
+      }
+    } catch (error) {
+      this.userSignal.clearUser();
+      throw error;
+    }
   }
+
   //=================================================
-  // async refreshToken() {
-  //   let refreshToken = this.userSignal.getUserRefreshToken;
+  // refreshToken() {
+  //   let refreshToken = this.userSignal?.getUserRefreshToken;
   //   if (!refreshToken) {
-  //     this.toastr.error('No refresh token available', 'Error');
   //     this.userSignal.clearUser();
+  //     return throwError(() => new Error('No Refresh Token available'));
   //   }
-
-  //   try {
-  //     const res = await lastValueFrom(
-  //       this.httpClient.post<ResModel>(
-  //         this.baseURL + this.ENDPOINT.AUTH.REFRESH_TOKEN,
-  //         refreshToken
-  //       )
+  //   let jsonRT = JSON.stringify(refreshToken);
+  //   return this.httpClient
+  //     .post<ResModel>(this.baseURL + this.ENDPOINT.AUTH.REFRESH_TOKEN, jsonRT)
+  //     .pipe(
+  //       switchMap((res) => {
+  //         if (res && res.data) {
+  //           this.userSignal.setUserSignal({
+  //             ...this.userSignal.getUserSignal,
+  //             access_token: res.data.access_token,
+  //           });
+  //           return of(res);
+  //         } else {
+  //           this.userSignal.clearUser();
+  //           return throwError(() => new Error('Failed to refresh token'));
+  //         }
+  //       }),
+  //       catchError((error) => {
+  //         this.userSignal.clearUser();
+  //         return throwError(() => error);
+  //       })
   //     );
-
-  //     if (res.data?.access_token) {
-  //       this.userSignal.setUserSignal({
-  //         ...this.userSignal.getUserSignal,
-  //         access_token: res.data.access_token,
-  //       });
-  //       this.toastr.success(res.message, 'Success');
-  //     } else {
-  //       this.userSignal.clearUser();
-  //       this.toastr.error('Failed to refresh token', 'Error');
-  //       // return 'Failed to refresh token';
-  //     }
-  //   } catch (err) {
-  //     this.userSignal.clearUser();
-  //     let mess = err.error.message || 'Failed to refresh token';
-  //     this.toastr.error(mess, 'Error');
-
-  //     // return err.error.message || 'Failed to refresh token';
-  //   }
   // }
-  //=================================================
 }
