@@ -49,11 +49,4 @@ export class UserSignalService {
     }
     this.router.navigate(['/login']);
   }
-
-  clearUser2() {
-    this.user.set(null);
-    if (typeof localStorage !== 'undefined') {
-      localStorage.removeItem(ENVIROMENT.USER_STORAGE);
-    }
-  }
 }

@@ -18,6 +18,7 @@ import { UserDto } from '../../../@models/UserDto';
 import { UserObjService } from '../../../services/userObj.service';
 import { UserSignalService } from '../../../services/user-signal.service';
 import { ToastrService } from 'ngx-toastr';
+import { ENVIROMENT } from '../../../enviroments/enviroment';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -45,8 +46,9 @@ export class LoginComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.initFormLogin();
-    let userSignal = this.userSignal.getUserSignal;
-    console.log('>>> Check user', userSignal);
+    // if (typeof localStorage !== 'undefined') {
+    //   localStorage.removeItem(ENVIROMENT.USER_STORAGE);
+    // }
   }
   login() {
     if (this.loginForm.invalid) {

@@ -20,7 +20,7 @@ public class ErrorResponse
       401 => "You are not authorized",
       404 => "Resource not found",
       500 => "Server error",
-      _ => null
+      _ => "null"
     };
   }
 }

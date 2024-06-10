@@ -27,7 +27,7 @@ namespace API.Services.Auth
 
 
 
-    public async Task<TokenDto> GetTokenAsync(string refreshToken)
+    public async Task<TokenDto?> GetTokenAsync(string refreshToken)
     {
       var token = await db.Tokens.SingleOrDefaultAsync(t => t.RefreshToken == refreshToken);
       if (token is null) return null;
@@ -40,7 +40,7 @@ namespace API.Services.Auth
     }
     public async Task<string?> RefreshTokenAsync(string refreshToken)
     {
-      var token = await db.Tokens.AsNoTracking().SingleOrDefaultAsync(t => t.RefreshToken == refreshToken);
+      var token = await db.Tokens.SingleOrDefaultAsync(t => t.RefreshToken == refreshToken);
       if (token is null) return null;
 
       if (token.ExpiryDate < DateTime.UtcNow)
@@ -112,7 +112,7 @@ namespace API.Services.Auth
     public string GenAccessToken(int userId)
     {
       var tokenHandle = new JwtSecurityTokenHandler();
-      var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"]);
+      var key = Encoding.ASCII.GetBytes(configuration["Jwt:Key"] ?? "");
       var tokenDescription = new SecurityTokenDescriptor
       {
         Subject = new ClaimsIdentity([

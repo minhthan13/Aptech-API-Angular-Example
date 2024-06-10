@@ -32,7 +32,5 @@ export class DashboardComponent implements OnInit {
     console.log('>>> User Signal in dashboard', MyUser);
   }
 
-  clear2() {
-    this.userSignal.clearUser2();
-  }
+  clear2() {}
 }
