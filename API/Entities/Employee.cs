@@ -11,12 +11,16 @@ namespace API.Entities
   [Table("Employee")]
   public class Employee
   {
+
     [Key]
     public int Id { get; set; }
     [StringLength(250)]
-    public required string Username { get; set; }
+    [Required]
+    public string Username { get; set; }
     [StringLength(250)]
-    public required string Password { get; set; }
+    [Required]
+
+    public string Password { get; set; }
     [StringLength(250)]
     public string? FullName { get; set; }
     [Column(TypeName = "datetime")]

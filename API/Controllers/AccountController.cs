@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Entities;
@@ -124,6 +125,42 @@ namespace API.Controllers
         return BadRequest(new ErrorResponse(400));
       }
     }
+
+    [HttpPost("add-new-account")]
+    [Produces("application/json")]
+    [Consumes("application/json")]
+    public async Task<IActionResult> AddNewAccount([FromBody] AccountRequest user)
+    {
+      try
+      {
+        if (accountService.Exist(user.Username))
+        {
+
+          return BadRequest(new ErrorResponse(400, "user name alredy exists !!"));
+        }
+        var account = new Employee
+        {
+          Username = user.Username,
+          Password = user.Password,
+          FullName = user.FullName,
+          Dob = DateTime.ParseExact(user.Dob, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+        };
+        var task = await accountService.addNewAccount(account, user.Roles);
+        if (task)
+        {
+          return Ok(new ErrorResponse(200, "add account success"));
+        }
+        else
+        {
+          return BadRequest(new ErrorResponse(400, "add account failed"));
+        }
+      }
+      catch
+      {
+        return BadRequest(new ErrorResponse(400, "add account failed"));
+      }
+    }
+
   }
 
 

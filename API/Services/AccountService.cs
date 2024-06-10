@@ -14,5 +14,8 @@ namespace API.Services
     Task<UserDto> GetAccountUsernameAsync(string username);
 
     Task<bool> Login(LoginRequest loginRequest);
+    Task<bool> addNewAccount(Employee employee, List<string> roleName);
+    public bool Exist(string username);
+
   }
 }

@@ -56,5 +56,29 @@ namespace API.Services
       }
 
     }
+
+    public async Task<bool> addNewAccount(Employee employee, List<string> roleName)
+    {
+      try
+      {
+        var roles = await db.Roles.Where(r => roleName.Contains(r.RoleName)).ToListAsync();
+        foreach (var Role in roles)
+        {
+          employee.Roles.Add(Role);
+        }
+        await db.Employees.AddAsync(employee);
+
+        return await db.SaveChangesAsync() > 0;
+      }
+      catch
+      {
+        return false;
+
+      }
+    }
+    public bool Exist(string username)
+    {
+      return db.Employees.Count(a => a.Username == username) > 0;
+    }
   }
 }
