@@ -57,14 +57,14 @@ namespace API.Services
 
     }
 
-    public async Task<bool> addNewAccount(Employee employee, List<string> roleName)
+    public async Task<bool> addNewAccount(Employee employee, List<string> roles)
     {
       try
       {
-        var roles = await db.Roles.Where(r => roleName.Contains(r.RoleName)).ToListAsync();
-        foreach (var Role in roles)
+        var role = await db.Roles.Where(r => roles.Contains(r.RoleName)).ToListAsync();
+        foreach (var R in role)
         {
-          employee.Roles.Add(Role);
+          employee.Roles.Add(R);
         }
         await db.Employees.AddAsync(employee);
 

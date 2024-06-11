@@ -14,7 +14,10 @@ public class Program
   {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddJsonOptions(opt =>
+    {
+      opt.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+    });
 
     //add service from configs folder
     builder.Services.AddMyDBContext(builder.Configuration);

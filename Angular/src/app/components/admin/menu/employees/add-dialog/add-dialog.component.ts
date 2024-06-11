@@ -3,6 +3,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -13,7 +14,6 @@ import { PasswordModule } from 'primeng/password';
 import { CalendarModule } from 'primeng/calendar';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { Router } from '@angular/router';
-import { EmployeeHandlerService } from '../employees.service';
 import {
   FormBuilder,
   FormControl,
@@ -23,6 +23,8 @@ import {
 import { DateConvertService } from '../../../../../services/utils/date-convert.service';
 import { RoleDto } from '../../../../../@models/RoleDto';
 import { RoleService } from '../../../../../services/role.service';
+import { EmployeeHandlerService } from '../employee-handler.service';
+import { EmployeesService } from '../../../../../services/employees.service';
 
 @Component({
   selector: 'add-dialog-employee',
@@ -39,25 +41,28 @@ import { RoleService } from '../../../../../services/role.service';
   ],
   styleUrl: './add-dialog.component.css',
 })
-export class AddDialogDemo implements OnInit {
+export class AddDialogDemo implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private employeeHandlerService: EmployeeHandlerService,
+    private employeeService: EmployeesService,
     private formBuilder: FormBuilder,
     private roleService: RoleService
   ) {
     employeeHandlerService.isOpenAddDialog$.subscribe((value) => {
       this.isOpen = value;
     });
-
     this.initFormAddNew();
     this.roleService.getAllRole().then((res) => {
-      console.log(res);
       if (res.data && res.data.length > 0) {
         this.rolesList = res.data as RoleDto[];
       }
     });
   }
+  ngOnDestroy(): void {
+    this.employeeHandlerService.HandleAddDialog(false);
+  }
+  @Output() initEmployeeComponet = new EventEmitter<void>();
   formAddNewEployee!: FormGroup;
   isOpen: boolean;
   rolesList!: RoleDto[];
@@ -70,7 +75,16 @@ export class AddDialogDemo implements OnInit {
     this.formAddNewEployee.controls['dob'].setValue(dateConver);
 
     let { Cpassword, ...newForm } = this.formAddNewEployee.value;
-    console.log('>>> check new form: ', newForm);
+    this.employeeService.AddNewEmployee(newForm).then(
+      (res) => {
+        console.log(res);
+        this.initEmployeeComponet.emit();
+        this.CancelDiaglog();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
   onDialogHide() {
     this.isOpen = false;

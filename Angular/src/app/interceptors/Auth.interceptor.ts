@@ -63,8 +63,6 @@ export function authInterceptor(
           })
         );
       } else {
-        toastService.error('Refresh token failed', 'Error');
-        router.navigate(['/login']);
         return throwError(() => error);
       }
     })

@@ -5,6 +5,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{7B66B0BD-4474-488F-9B74-70B2C2A576D7}|API.csproj|d:\\aptech\\api-angular-example\\api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7B66B0BD-4474-488F-9B74-70B2C2A576D7}|API.csproj|solutionrelative:controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B66B0BD-4474-488F-9B74-70B2C2A576D7}|API.csproj|d:\\aptech\\api-angular-example\\api\\services\\accountserviceimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7B66B0BD-4474-488F-9B74-70B2C2A576D7}|API.csproj|solutionrelative:services\\accountserviceimpl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +18,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AccountServiceImpl.cs",
+              "DocumentMoniker": "D:\\Aptech\\API-Angular-Example\\API\\Services\\AccountServiceImpl.cs",
+              "RelativeDocumentMoniker": "Services\\AccountServiceImpl.cs",
+              "ToolTip": "D:\\Aptech\\API-Angular-Example\\API\\Services\\AccountServiceImpl.cs",
+              "RelativeToolTip": "Services\\AccountServiceImpl.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAAAiwE0AAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-11T15:28:51.028Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -24,7 +41,7 @@
               "RelativeDocumentMoniker": "Controllers\\AccountController.cs",
               "ToolTip": "D:\\Aptech\\API-Angular-Example\\API\\Controllers\\AccountController.cs",
               "RelativeToolTip": "Controllers\\AccountController.cs",
-              "ViewState": "AQIAADwAAAAAAAAAAAAkwEgAAAASAAAA",
+              "ViewState": "AQIAAH8AAAAAAAAAAAAUwKAAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-09T06:30:14.294Z",
               "EditorCaption": ""

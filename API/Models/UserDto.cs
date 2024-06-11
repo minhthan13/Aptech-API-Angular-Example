@@ -10,11 +10,17 @@ namespace API.Models
   {
     public int id { get; set; }
     public string username { get; set; }
+    public string? password { get; set; }
     public string? fullName { get; set; }
-    public string Dob { get; set; }
-    public string photo { get; set; }
-    public object roles { get; set; }
-
+    public string? Dob { get; set; }
+    public string? photo { get; set; }
+    public List<roleRequest?>? roles { get; set; }
+    public class roleRequest
+    {
+      public int? id { get; set; }
+      public string name { get; set; }
+    }
+    public UserDto() { }
     public UserDto(Employee employee)
     {
       id = employee.Id;
@@ -22,9 +28,11 @@ namespace API.Models
       fullName = employee.FullName ?? "";
       Dob = employee.Dob.ToString("dd/MM/yyyy");
       photo = employee.Photo;
-      roles = employee.Roles.Select(r => r.RoleName);
+      roles = employee.Roles.Select(r => new roleRequest { id = r.Id, name = r.RoleName }).ToList() ?? [];
+      password = "";
 
     }
+
 
 
   }

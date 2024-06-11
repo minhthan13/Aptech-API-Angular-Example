@@ -7,7 +7,7 @@
       severity="info"
       (onClick)="openDialog()"
     />
-    <add-dialog-employee />
+    <add-dialog-employee (initEmployeeComponet)="onDialogEvent()" />
   </div>
   <!-- table -->
   @if(accounts && accounts.length >0){
@@ -46,7 +46,10 @@
         </td>
         <td>
           @for(role of accounts.roles;track role){
-          <p-tag [value]="role.toUpperCase()" [severity]="getSeverity(role)" />
+          <p-tag
+            [value]="role.name.toUpperCase()"
+            [severity]="getSeverity(role.name)"
+          />
           }
         </td>
       </tr>

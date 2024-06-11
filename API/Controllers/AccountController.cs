@@ -129,22 +129,23 @@ namespace API.Controllers
     [HttpPost("add-new-account")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public async Task<IActionResult> AddNewAccount([FromBody] AccountRequest user)
+    public async Task<IActionResult> AddNewAccount([FromBody] UserDto user)
     {
       try
       {
-        if (accountService.Exist(user.Username))
+        if (accountService.Exist(user.username))
         {
           return BadRequest(new ErrorResponse(400, "user name alredy exists !!"));
         }
+        List<string> ListRoleName = user.roles.Select(r => r.name).ToList() ?? [];
         var account = new Employee
         {
-          Username = user.Username,
-          Password = user.Password,
-          FullName = user.FullName,
-          Dob = DateTime.ParseExact(user.Dob, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+          Username = user.username,
+          Password = user.password,
+          FullName = user.fullName,
+          Dob = DateTime.Parse(user.Dob),
         };
-        if (await accountService.addNewAccount(account, user.Roles))
+        if (await accountService.addNewAccount(account, ListRoleName))
         {
           return Ok(new { message = "Add account success" });
         }

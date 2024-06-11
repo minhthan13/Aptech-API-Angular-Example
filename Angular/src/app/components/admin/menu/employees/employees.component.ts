@@ -14,7 +14,7 @@ import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AddDialogDemo } from './add-dialog/add-dialog.component';
-import { EmployeeHandlerService } from './employees.service';
+import { EmployeeHandlerService } from './employee-handler.service';
 import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-employees',
@@ -35,22 +35,24 @@ export class EmployeesComponent implements OnInit {
   constructor(
     private employeeService: EmployeesService,
     private employeeHandlerService: EmployeeHandlerService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.initAccountTable();
   }
+  accounts: UserDto[];
   openDialog() {
     this.employeeHandlerService.HandleAddDialog(true);
   }
-
-  accounts: UserDto[];
-  ngOnInit(): void {}
-
+  onDialogEvent() {
+    console.log('check event in employees');
+    this.initAccountTable();
+  }
   // table
   initAccountTable() {
     this.employeeService.getAllAccount().then(
       (res: ResModel) => {
         this.accounts = res.data as UserDto[];
-        console.log(this.accounts);
       },
       (err) => {
         console.log(err);
