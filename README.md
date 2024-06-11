@@ -48,4 +48,5 @@ dotnet ef database update
 ```scala
 > Toast
 npm i ngx-toastr
+npm install primeng
 ```

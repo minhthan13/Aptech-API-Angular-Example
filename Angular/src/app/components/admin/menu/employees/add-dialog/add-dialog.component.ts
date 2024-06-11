@@ -80,12 +80,21 @@ export class AddDialogDemo implements OnInit {
     this.formAddNewEployee.reset();
   }
   initFormAddNew() {
-    this.formAddNewEployee = new FormGroup({
-      username: new FormControl(''),
-      fullName: new FormControl(''),
-      password: new FormControl(''),
-      Cpassword: new FormControl(''),
-      dob: new FormControl(''),
+    // this.formAddNewEployee = new FormGroup({
+    //   username: new FormControl(''),
+    //   fullName: new FormControl(''),
+    //   password: new FormControl(''),
+    //   Cpassword: new FormControl(''),
+    //   dob: new FormControl(''),
+    //   roles: new FormControl<RoleDto[] | null>([]),
+    // });
+
+    this.formAddNewEployee = this.formBuilder.group({
+      username: '',
+      fullName: '',
+      password: '',
+      Cpassword: '',
+      dob: '',
       roles: new FormControl<RoleDto[] | null>([]),
     });
   }
