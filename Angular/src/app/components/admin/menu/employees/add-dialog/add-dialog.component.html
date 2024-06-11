@@ -1,20 +1,62 @@
-<p-dialog
-  header="Create"
-  [modal]="true"
-  [(visible)]="isOpen"
-  [style]="{ width: '25rem' }"
->
+@if(formAddNewEployee){
+<p-dialog header="Create" [modal]="true" [(visible)]="isOpen">
   <span class="p-text-secondary block mb-5">Add New Employee</span>
-  <div class="flex align-items-center gap-3 mb-3">
-    <label for="username" class="font-semibold w-6rem">Username</label>
-    <input pInputText id="username" class="flex-auto" autocomplete="off" />
-  </div>
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="email" class="font-semibold w-6rem">Email</label>
-    <input pInputText id="email" class="flex-auto" autocomplete="off" />
-  </div>
-  <div class="flex justify-content-end gap-2">
-    <p-button label="Cancel" severity="secondary" (click)="onDialogHide()" />
-    <p-button label="Save" (click)="onDialogHide()" />
-  </div>
+  <form [formGroup]="formAddNewEployee" (ngSubmit)="addNew()">
+    <div class="flex flex-row column-gap-4 justify-content-between">
+      <div class="left">
+        <div class="flex align-items-center gap-2 mb-3">
+          <label class="font-semibold w-6rem">Username</label>
+          <input
+            pInputText
+            class="flex-auto"
+            autocomplete="off"
+            formControlName="username"
+          />
+        </div>
+        <div class="flex align-items-center gap-2 mb-3">
+          <label class="font-semibold w-6rem">Fullname</label>
+          <input
+            pInputText
+            class="flex-auto"
+            autocomplete="off"
+            formControlName="fullName"
+          />
+        </div>
+        <div class="flex align-items-center gap-2 mb-3">
+          <label class="font-semibold w-6rem">Birthday</label>
+          <p-calendar
+            formControlName="dob"
+            dateFormat="dd/mm/yy"
+            class="custom-calendar"
+          />
+        </div>
+      </div>
+      <!-- ===== -->
+      <div class="right">
+        <div class="flex align-items-center gap-2 mb-3">
+          <label class="font-semibold w-6rem">Roles</label>
+          <p-multiSelect
+            [options]="rolesList"
+            formControlName="roles"
+            optionLabel="name"
+            placeholder="Select Role"
+          />
+        </div>
+        <div class="flex align-items-center gap-2 mb-3">
+          <label class="font-semibold w-6rem">Password</label>
+          <p-password [toggleMask]="true" formControlName="password" />
+        </div>
+        <div class="flex align-items-center gap-2 mb-3">
+          <label class="font-semibold w-6rem">Confirm Password</label>
+          <p-password [toggleMask]="true" formControlName="Cpassword" />
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-content-end gap-2">
+      <p-button label="Cancel" severity="secondary" (click)="CancelDiaglog()" />
+      <p-button label="Save" type="submit" (click)="onDialogHide()" />
+    </div>
+  </form>
 </p-dialog>
+}

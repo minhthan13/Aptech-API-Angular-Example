@@ -9,5 +9,8 @@ export const ENVIROMENT = {
     EMPLOYEES: {
       Get_All: '/account/getAccounts/',
     },
+    ROLE: {
+      Get_All: '/Role/getRoles/',
+    },
   },
 };

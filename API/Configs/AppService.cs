@@ -26,6 +26,7 @@ namespace API.Configs
     {
       services.AddScoped<AccountService, AccountServiceImpl>();
       services.AddScoped<TokenService, TokenServiceImpl>();
+      services.AddScoped<RoleService, RoleServiceImpl>();
     }
   }
 }

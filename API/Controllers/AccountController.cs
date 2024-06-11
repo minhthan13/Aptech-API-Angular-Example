@@ -135,7 +135,6 @@ namespace API.Controllers
       {
         if (accountService.Exist(user.Username))
         {
-
           return BadRequest(new ErrorResponse(400, "user name alredy exists !!"));
         }
         var account = new Employee
@@ -145,10 +144,9 @@ namespace API.Controllers
           FullName = user.FullName,
           Dob = DateTime.ParseExact(user.Dob, "dd/MM/yyyy", CultureInfo.InvariantCulture)
         };
-        var task = await accountService.addNewAccount(account, user.Roles);
-        if (task)
+        if (await accountService.addNewAccount(account, user.Roles))
         {
-          return Ok(new ErrorResponse(200, "add account success"));
+          return Ok(new { message = "Add account success" });
         }
         else
         {

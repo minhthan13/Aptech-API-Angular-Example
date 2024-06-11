@@ -15,6 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AddDialogDemo } from './add-dialog/add-dialog.component';
 import { EmployeeHandlerService } from './employees.service';
+import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-employees',
   standalone: true,
@@ -27,6 +28,7 @@ import { EmployeeHandlerService } from './employees.service';
     StyleClassModule,
     ButtonModule,
     AddDialogDemo,
+    ReactiveFormsModule,
   ],
 })
 export class EmployeesComponent implements OnInit {

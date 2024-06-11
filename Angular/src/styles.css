@@ -6,5 +6,5 @@
 @import "ngx-toastr/toastr";
 @import "./Toast.css";
 .custom-tab-menu .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
-  border: none;
+  /* border: none; */
 }
