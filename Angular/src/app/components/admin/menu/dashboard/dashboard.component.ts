@@ -4,6 +4,8 @@ import { UserSignalService } from '../../../../services/user-signal.service';
 import { CardModule } from 'primeng/card';
 import { AuthService } from '../../../../services/auth.service';
 import { ResModel } from '../../../../@models/resModel';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { subscribe } from 'diagnostics_channel';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,11 +16,28 @@ import { ResModel } from '../../../../@models/resModel';
   host: { 'collision-id': 'DashboardComponent' },
 })
 export class DashboardComponent implements OnInit {
+  refresh() {
+    let refreshToken = this.userSignal.getUserRefreshToken();
+    const header = new HttpHeaders().set(
+      'Content-Type',
+      'application/json; charset=utf-8'
+    );
+    this.httpClient
+      .post<ResModel>(
+        'https://localhost:7043/api/account/refresh-token/',
+        JSON.stringify(refreshToken),
+        { headers: header }
+      )
+      .subscribe((res) => {
+        console.log(res);
+      });
+  }
   // MyUser = signal<UserDto | null>(null);
   constructor(
     private userObjService: UserObjService,
     private userSignal: UserSignalService,
-    private authService: AuthService
+    private authService: AuthService,
+    private httpClient: HttpClient
   ) {}
   ngOnInit(): void {
     // this.userObjService.user$?.subscribe((user) => {

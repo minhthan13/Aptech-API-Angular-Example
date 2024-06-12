@@ -24,10 +24,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideClientHydration(),
-    BrowserModule,
     provideAnimations(),
-    // BrowserAnimationsModule,
-    HttpClientModule,
+    // provideHttpClient(withFetch()),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     //
     // toastify config

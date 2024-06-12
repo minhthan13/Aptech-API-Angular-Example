@@ -21,22 +21,21 @@ export function authInterceptor(
   const toastService = inject(ToastrService);
   const router = inject(Router);
   const authToken = userSignalService.getAccessToken();
-  let isRefresh: boolean;
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(authToken && { Authorization: `Bearer ${authToken}` }),
-  };
-  const clonedRequest = req.clone({
-    setHeaders: headers,
-  });
-  if (req.url.includes('/refresh-token')) {
-    return next(req);
+  let clonedRequest = req;
+  if (authToken) {
+    clonedRequest = req.clone({
+      headers: req.headers.append('Authorization', `Bearer ${authToken}`),
+    });
   }
+  // if (req.url.includes('/refresh-token')) {
+  //   return next(req);
+  // }
   return next(clonedRequest).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 && !req.url.includes('/refresh-token')) {
+      let refresh_token = userSignalService.getUserRefreshToken();
+      if (error.status === 401 && refresh_token != null) {
         // Token expired, try refreshing the token
-        return authService.refreshToken().pipe(
+        return authService.refreshToken(refresh_token).pipe(
           switchMap((res: ResModel) => {
             // Update the user signal with new access token
             userSignalService.setUserSignal({
@@ -47,12 +46,11 @@ export function authInterceptor(
             // Clone the request with the new token
             const newAuthToken = res.data.access_token;
             const newRequest = req.clone({
-              setHeaders: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${newAuthToken}`,
-              },
+              headers: req.headers.append(
+                'Authorization',
+                `Bearer ${newAuthToken}`
+              ),
             });
-
             // Retry the original request with the new token
             return next(newRequest);
           }),

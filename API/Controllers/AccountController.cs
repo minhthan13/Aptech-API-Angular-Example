@@ -10,6 +10,8 @@ using API.Services;
 using API.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -46,7 +48,7 @@ namespace API.Controllers
               user.id,
               user.username,
               fullname = user.fullName,
-              dob = user.Dob,
+              user.dob,
               user.photo,
               user.roles,
               access_token,
@@ -71,7 +73,6 @@ namespace API.Controllers
     }
     [HttpPost("refresh-token")]
     [Produces("application/json")]
-    [Consumes("application/json")]
     public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
     {
       try
@@ -108,9 +109,9 @@ namespace API.Controllers
       }
     }
 
+    [Authorize]
     [HttpGet("getAccountId/{id}")]
     [Produces("application/json")]
-    [Authorize]
 
     public async Task<IActionResult> getAccountId(int id)
     {
@@ -125,26 +126,37 @@ namespace API.Controllers
         return BadRequest(new ErrorResponse(400));
       }
     }
-
     [HttpPost("add-new-account")]
     [Produces("application/json")]
-    [Consumes("application/json")]
-    public async Task<IActionResult> AddNewAccount([FromBody] UserDto user)
+    public async Task<IActionResult> AddNewAccount([FromForm] string user, [FromForm] IFormFile file)
     {
       try
       {
-        if (accountService.Exist(user.username))
+        if (file != null)
         {
-          return BadRequest(new ErrorResponse(400, "user name alredy exists !!"));
+          Console.WriteLine("this file inAPI");
+
         }
-        List<string> ListRoleName = user.roles.Select(r => r.name).ToList() ?? [];
+        var setting = new JsonSerializerSettings();
+        setting.Converters.Add(new IsoDateTimeConverter()
+        {
+          DateTimeFormat = "dd/MM/yyyy"
+        });
+        UserDto userDto = JsonConvert.DeserializeObject<UserDto>(user, setting);
+        // if (accountService.Exist(user.username))
+        // {
+        //   return BadRequest(new ErrorResponse(400, "user name alredy exists !!"));
+        // }
+        List<string> ListRoleName = userDto.roles.Select(r => r.name).ToList() ?? [];
         var account = new Employee
         {
-          Username = user.username,
-          Password = user.password,
-          FullName = user.fullName,
-          Dob = DateTime.Parse(user.Dob),
+          Username = userDto.username,
+          Password = userDto.password,
+          FullName = userDto.fullName,
+          Dob = DateTime.Parse(userDto.dob)
         };
+
+
         if (await accountService.addNewAccount(account, ListRoleName))
         {
           return Ok(new { message = "Add account success" });

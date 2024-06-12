@@ -1,6 +1,6 @@
 import { effect, inject, Injectable } from '@angular/core';
 import { ENVIROMENT } from '../enviroments/enviroment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom, Observable, of, throwError } from 'rxjs';
 import { ResModel } from '../@models/resModel';
 import { UserSignalService } from './user-signal.service';
@@ -30,18 +30,19 @@ export class AuthService {
   }
 
   //=================================================
-  refreshToken(): Observable<ResModel> {
+  refreshToken(refresh_Token: string): Observable<ResModel> {
     try {
-      const refreshToken = this.userSignal.getUserRefreshToken();
-      if (!refreshToken) {
+      if (!refresh_Token) {
         return throwError(() => new Error('No user information available'));
       }
-
-      let jsonRT = JSON.stringify(refreshToken);
-
+      const header = new HttpHeaders().set(
+        'Content-Type',
+        'application/json; charset=utf-8'
+      );
       return this.httpClient.post<ResModel>(
         this.baseURL + this.ENDPOINT.AUTH.REFRESH_TOKEN,
-        jsonRT
+        JSON.stringify(refresh_Token),
+        { headers: header }
       );
     } catch {
       return throwError(() => new Error('Failed to parse user information'));

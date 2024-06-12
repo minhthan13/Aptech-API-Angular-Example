@@ -1,8 +1,6 @@
 import {
   Component,
   EventEmitter,
-  inject,
-  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -20,12 +18,13 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { DateConvertService } from '../../../../../services/utils/date-convert.service';
+import { DateConvertService } from '../../../../../services/helpers/date-convert';
 import { RoleDto } from '../../../../../@models/RoleDto';
 import { RoleService } from '../../../../../services/role.service';
 import { EmployeeHandlerService } from '../employee-handler.service';
 import { EmployeesService } from '../../../../../services/employees.service';
 import { FileUploadHelper } from '../../../../../services/helpers/file-upload';
+import { UserDto } from '../../../../../@models/UserDto';
 
 @Component({
   selector: 'add-dialog-employee',
@@ -65,6 +64,7 @@ export class AddDialogDemo implements OnInit, OnDestroy {
   formAddNewEployee!: FormGroup;
   isOpen: boolean;
   rolesList!: RoleDto[];
+  fileUpload: File;
   currentImage: string = 'assets/images/account/default-profile.png';
   ngOnInit(): void {}
 
@@ -74,7 +74,17 @@ export class AddDialogDemo implements OnInit, OnDestroy {
     this.formAddNewEployee.controls['dob'].setValue(dateConver);
 
     let { Cpassword, ...newForm } = this.formAddNewEployee.value;
-    this.employeeService.AddNewEmployee(newForm).then(
+
+    console.log(newForm);
+    console.log(this.fileUpload);
+    let formdata = new FormData();
+    if (this.fileUpload != null) {
+      formdata.append('file', this.fileUpload);
+    }
+    let user = JSON.stringify(newForm);
+    formdata.append('user', user);
+
+    this.employeeService.AddNewEmployee(formdata).then(
       (res) => {
         console.log(res);
         this.initEmployeeComponet.emit();
@@ -86,13 +96,14 @@ export class AddDialogDemo implements OnInit, OnDestroy {
     );
   }
   onFileSelected(event: any) {
-    FileUploadHelper.onFileSelected(
-      event,
-      this.currentImage,
-      (result: string) => {
+    this.fileUpload = event.target.files[0];
+    if (this.fileUpload != null) {
+      FileUploadHelper.onFileSelectedPreview(event, (result: string) => {
         this.currentImage = result;
-      }
-    );
+      });
+      let newPhotoName = `${new Date().getTime()}_${this.fileUpload.name}`;
+      this.formAddNewEployee.controls['photo'].setValue(newPhotoName);
+    }
   }
   onDialogHide() {
     this.isOpen = false;
@@ -117,6 +128,7 @@ export class AddDialogDemo implements OnInit, OnDestroy {
       password: '',
       Cpassword: '',
       dob: '',
+      photo: 'default-profile.png',
       roles: new FormControl<RoleDto[] | null>([]),
     });
   }

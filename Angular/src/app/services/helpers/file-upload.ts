@@ -1,5 +1,5 @@
 export class FileUploadHelper {
-  static onFileSelected(event: any, currentImage: string, callback: Function) {
+  static onFileSelectedPreview(event: any, callback: Function) {
     const files: FileList = event.target.files;
     if (files && files.length > 0) {
       const selectedFile = files[0];
