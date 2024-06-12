@@ -25,6 +25,7 @@ import { RoleDto } from '../../../../../@models/RoleDto';
 import { RoleService } from '../../../../../services/role.service';
 import { EmployeeHandlerService } from '../employee-handler.service';
 import { EmployeesService } from '../../../../../services/employees.service';
+import { FileUploadHelper } from '../../../../../services/helpers/file-upload';
 
 @Component({
   selector: 'add-dialog-employee',
@@ -59,14 +60,12 @@ export class AddDialogDemo implements OnInit, OnDestroy {
       }
     });
   }
-  ngOnDestroy(): void {
-    this.employeeHandlerService.HandleAddDialog(false);
-  }
+
   @Output() initEmployeeComponet = new EventEmitter<void>();
   formAddNewEployee!: FormGroup;
   isOpen: boolean;
   rolesList!: RoleDto[];
-
+  currentImage: string = 'assets/images/account/default-profile.png';
   ngOnInit(): void {}
 
   addNew() {
@@ -83,6 +82,15 @@ export class AddDialogDemo implements OnInit, OnDestroy {
       },
       (err) => {
         console.log(err);
+      }
+    );
+  }
+  onFileSelected(event: any) {
+    FileUploadHelper.onFileSelected(
+      event,
+      this.currentImage,
+      (result: string) => {
+        this.currentImage = result;
       }
     );
   }
@@ -111,5 +119,8 @@ export class AddDialogDemo implements OnInit, OnDestroy {
       dob: '',
       roles: new FormControl<RoleDto[] | null>([]),
     });
+  }
+  ngOnDestroy(): void {
+    this.employeeHandlerService.HandleAddDialog(false);
   }
 }

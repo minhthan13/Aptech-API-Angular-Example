@@ -7,7 +7,7 @@ export interface UserDto {
   dob: string;
   photo: string;
   roles?: RoleDto[];
-  access_token?: string;
-  refresh_token?: string;
+  access_token: string;
+  refresh_token: string;
   password?: string;
 }

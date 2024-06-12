@@ -20,7 +20,8 @@ export function authInterceptor(
   const userSignalService = inject(UserSignalService);
   const toastService = inject(ToastrService);
   const router = inject(Router);
-  const authToken = userSignalService.getUserSignal?.access_token;
+  const authToken = userSignalService.getAccessToken();
+  let isRefresh: boolean;
   const headers = {
     'Content-Type': 'application/json',
     ...(authToken && { Authorization: `Bearer ${authToken}` }),
@@ -33,36 +34,39 @@ export function authInterceptor(
   }
   return next(clonedRequest).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+      if (error.status === 401 && !req.url.includes('/refresh-token')) {
+        // Token expired, try refreshing the token
         return authService.refreshToken().pipe(
           switchMap((res: ResModel) => {
-            if (res && res.data) {
-              // Update the user signal with the new access token
-              userSignalService.setUserSignal({
-                ...userSignalService.getUserSignal,
-                access_token: res.data.access_token,
-              });
-              console.log('refresh success');
-              const newHeaders = {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${res.data.access_token}`,
-              };
-              const newRequest = req.clone({ setHeaders: newHeaders });
+            // Update the user signal with new access token
+            userSignalService.setUserSignal({
+              ...userSignalService.getUserSignal(),
+              access_token: res.data.access_token,
+            });
 
-              return next(newRequest);
-            } else {
-              toastService.error('Refresh token failed', 'Error');
-              router.navigate(['/login']);
-              return throwError(() => new Error('Failed to refresh token'));
-            }
+            // Clone the request with the new token
+            const newAuthToken = res.data.access_token;
+            const newRequest = req.clone({
+              setHeaders: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${newAuthToken}`,
+              },
+            });
+
+            // Retry the original request with the new token
+            return next(newRequest);
           }),
-          catchError((refreshError) => {
-            toastService.error('Refresh token failed', 'Error');
-            router.navigate(['/login']);
-            return throwError(() => refreshError);
+          catchError((refreshError: any) => {
+            // If refresh also fails, logout the user and redirect to login
+            userSignalService.setUserSignal(null);
+            return throwError(() => {
+              router.navigate(['/login']);
+              return refreshError;
+            });
           })
         );
       } else {
+        // If the error is not 401 or request is for refresh token, propagate the error
         return throwError(() => error);
       }
     })

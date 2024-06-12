@@ -17,13 +17,17 @@ import { Router } from '@angular/router';
 })
 export class UserSignalService {
   private user = signal<UserDto | null>(null);
-  user$: Signal<UserDto | null>;
-  constructor(private router: Router) {
-    let userStorage: UserDto | null;
+  user$!: Signal<UserDto | null>;
+  constructor() {
+    let userStorage: UserDto;
     if (typeof localStorage !== 'undefined') {
       const storedUser = localStorage.getItem(ENVIROMENT.USER_STORAGE);
       if (storedUser) {
-        userStorage = JSON.parse(storedUser);
+        try {
+          userStorage = JSON.parse(storedUser);
+        } catch (e) {
+          console.error('Error parsing stored user from localStorage', e);
+        }
       }
     }
     this.user.set(userStorage);
@@ -36,17 +40,25 @@ export class UserSignalService {
       localStorage.setItem(ENVIROMENT.USER_STORAGE, JSON.stringify(user));
     }
   }
-  get getUserSignal() {
+
+  getUserSignal(): UserDto {
     return this.user$();
   }
-  get getUserRefreshToken(): string | null {
-    return this.user$()?.refresh_token ?? null;
+
+  getAccessToken(): string | null {
+    const user = this.getUserSignal();
+    return user ? user.access_token : null;
   }
+
+  getUserRefreshToken(): string | null {
+    const user = this.getUserSignal();
+    return user ? user.refresh_token : null;
+  }
+
   clearUser() {
     this.user.set(null);
     if (typeof localStorage !== 'undefined') {
       localStorage.removeItem(ENVIROMENT.USER_STORAGE);
     }
-    this.router.navigate(['/login']);
   }
 }

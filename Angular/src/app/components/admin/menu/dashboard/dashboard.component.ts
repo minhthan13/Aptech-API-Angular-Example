@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
     //     // console.log('>>> user: ', this.MyUser);
     //   }
     // });
-    let MyUser = this.userSignal.getUserSignal;
+    let MyUser = this.userSignal.getUserSignal();
 
     console.log('>>> User Signal in dashboard', MyUser);
   }
