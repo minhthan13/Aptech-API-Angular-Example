@@ -22,15 +22,16 @@ export class DashboardComponent implements OnInit {
       'Content-Type',
       'application/json; charset=utf-8'
     );
-    this.httpClient
-      .post<ResModel>(
-        'https://localhost:7043/api/account/refresh-token/',
-        JSON.stringify(refreshToken),
-        { headers: header }
-      )
-      .subscribe((res) => {
-        console.log(res);
-      });
+    let form = new FormData();
+    form.append('refreshToken', refreshToken);
+    // this.httpClient
+    //   .post('https://localhost:7043/api/account/refresh-token', form)
+    //   .subscribe((res) => {
+    //     console.log(res);
+    //   });
+    this.authService.refreshToken(refreshToken).subscribe((res) => {
+      console.log(res);
+    });
   }
   // MyUser = signal<UserDto | null>(null);
   constructor(

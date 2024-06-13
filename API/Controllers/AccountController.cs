@@ -21,11 +21,13 @@ namespace API.Controllers
   {
     private readonly AccountService accountService;
     private readonly TokenService tokenService;
+    private IWebHostEnvironment webHost;
 
-    public AccountController(AccountService _accountService, TokenService _tokenService)
+    public AccountController(AccountService _accountService, TokenService _tokenService, IWebHostEnvironment _webHost)
     {
       accountService = _accountService;
       tokenService = _tokenService;
+      webHost = _webHost;
     }
 
 
@@ -73,7 +75,7 @@ namespace API.Controllers
     }
     [HttpPost("refresh-token")]
     [Produces("application/json")]
-    public async Task<IActionResult> RefreshToken([FromBody] string refreshToken)
+    public async Task<IActionResult> RefreshToken([FromForm] string refreshToken)
     {
       try
       {
@@ -128,37 +130,43 @@ namespace API.Controllers
     }
     [HttpPost("add-new-account")]
     [Produces("application/json")]
-    public async Task<IActionResult> AddNewAccount([FromForm] string user, [FromForm] IFormFile file)
+    public async Task<IActionResult> AddNewAccount([FromForm] string user, [FromForm] IFormFile? file)
     {
       try
       {
-        if (file != null)
-        {
-          Console.WriteLine("this file inAPI");
-
-        }
         var setting = new JsonSerializerSettings();
         setting.Converters.Add(new IsoDateTimeConverter()
         {
           DateTimeFormat = "dd/MM/yyyy"
         });
         UserDto userDto = JsonConvert.DeserializeObject<UserDto>(user, setting);
-        // if (accountService.Exist(user.username))
-        // {
-        //   return BadRequest(new ErrorResponse(400, "user name alredy exists !!"));
-        // }
+        if (accountService.Exist(userDto.username))
+        {
+          return BadRequest(new ErrorResponse(400, "user name alredy exists !!"));
+        }
         List<string> ListRoleName = userDto.roles.Select(r => r.name).ToList() ?? [];
-        var account = new Employee
+        var account = new Employee()
         {
           Username = userDto.username,
           Password = userDto.password,
           FullName = userDto.fullName,
-          Dob = DateTime.Parse(userDto.dob)
+          Dob = DateTime.Parse(userDto.dob),
+
+          Photo = file != null ? $"{DateTime.Now.ToString("ddMMyyyy")}_{userDto.photo}" : null
         };
+
 
 
         if (await accountService.addNewAccount(account, ListRoleName))
         {
+          if (file != null)
+          {
+            var path = Path.Combine(webHost.WebRootPath, "images/account", account.Photo);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+              file.CopyTo(fileStream);
+            }
+          }
           return Ok(new { message = "Add account success" });
         }
         else

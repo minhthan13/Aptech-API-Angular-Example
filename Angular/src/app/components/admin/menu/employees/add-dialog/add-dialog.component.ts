@@ -25,6 +25,7 @@ import { EmployeeHandlerService } from '../employee-handler.service';
 import { EmployeesService } from '../../../../../services/employees.service';
 import { FileUploadHelper } from '../../../../../services/helpers/file-upload';
 import { UserDto } from '../../../../../@models/UserDto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'add-dialog-employee',
@@ -47,7 +48,8 @@ export class AddDialogDemo implements OnInit, OnDestroy {
     private employeeHandlerService: EmployeeHandlerService,
     private employeeService: EmployeesService,
     private formBuilder: FormBuilder,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private toastr: ToastrService
   ) {
     employeeHandlerService.isOpenAddDialog$.subscribe((value) => {
       this.isOpen = value;
@@ -74,9 +76,6 @@ export class AddDialogDemo implements OnInit, OnDestroy {
     this.formAddNewEployee.controls['dob'].setValue(dateConver);
 
     let { Cpassword, ...newForm } = this.formAddNewEployee.value;
-
-    console.log(newForm);
-    console.log(this.fileUpload);
     let formdata = new FormData();
     if (this.fileUpload != null) {
       formdata.append('file', this.fileUpload);
@@ -86,7 +85,7 @@ export class AddDialogDemo implements OnInit, OnDestroy {
 
     this.employeeService.AddNewEmployee(formdata).then(
       (res) => {
-        console.log(res);
+        this.toastr.success(res.message, 'Add User');
         this.initEmployeeComponet.emit();
         this.CancelDiaglog();
       },

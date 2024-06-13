@@ -20,6 +20,7 @@
         <th>IMAGE</th>
         <th>DOB</th>
         <th>ROLE</th>
+        <th>ACTION</th>
       </tr>
     </ng-template>
 
@@ -35,22 +36,30 @@
           {{ accounts.fullName }}
         </td>
         <td>
-          <img
-            src="assets/images/account/{{ accounts.photo }}"
-            width="40"
-            height="40"
-          />
+          <img [src]="imgUrl + accounts.photo" width="40" height="40" />
         </td>
         <td>
           {{ accounts.dob }}
         </td>
         <td>
           @for(role of accounts.roles;track role){
-          <p-tag
-            [value]="role.name.toUpperCase()"
-            [severity]="getSeverity(role.name)"
-          />
+          <p-tag [value]="role.name" [severity]="getSeverity(role.name)" />
           }
+        </td>
+        <td>
+          <p-button
+            icon="pi pi-trash"
+            severity="danger"
+            class="mr-2"
+            size="small"
+            (click)="deleteAccount($event, accounts.id)"
+          />
+          <p-button
+            icon="pi pi-user-edit"
+            severity="info"
+            class="mr-2"
+            size="small"
+          />
         </td>
       </tr>
     </ng-template>

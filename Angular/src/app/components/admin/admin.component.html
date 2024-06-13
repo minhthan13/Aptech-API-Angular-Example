@@ -1,6 +1,8 @@
 <div class="layout-topbar flex col-12 justify-content-between">
   <div class="topbar-left">
-    <app-topbar />
+    <app-topbar>
+      <p-confirmPopup />
+    </app-topbar>
   </div>
   <div class="topbar-right">
     <div class="btnLogout" (click)="Logout($event)">
@@ -23,4 +25,3 @@
 <div class="layout-footer">
   <app-footer />
 </div>
-<p-confirmPopup />

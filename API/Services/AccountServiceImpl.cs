@@ -32,7 +32,7 @@ namespace API.Services
     }
     public async Task<List<UserDto>> GetAccountsAsync()
     {
-      return await db.Employees.AsNoTracking().Include(e => e.Roles).Select(e => new UserDto(e)).ToListAsync();
+      return await db.Employees.AsNoTracking().OrderByDescending(u => u.Id).Include(e => e.Roles).Select(e => new UserDto(e)).ToListAsync();
     }
 
     public async Task<bool> Login(LoginRequest loginRequest)

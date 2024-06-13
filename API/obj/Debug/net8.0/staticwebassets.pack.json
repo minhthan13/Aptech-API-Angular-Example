@@ -1,0 +1,69 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\13062024_1718254568400_Java.jpg",
+      "PackagePath": "staticwebassets\\images\\account\\13062024_1718254568400_Java.jpg"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\Background-Blue.png",
+      "PackagePath": "staticwebassets\\images\\account\\Background-Blue.png"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\Background.png",
+      "PackagePath": "staticwebassets\\images\\account\\Background.png"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\Default.jpg",
+      "PackagePath": "staticwebassets\\images\\account\\Default.jpg"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\Docker.jpeg",
+      "PackagePath": "staticwebassets\\images\\account\\Docker.jpeg"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\Flutter.png",
+      "PackagePath": "staticwebassets\\images\\account\\Flutter.png"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\Java.jpg",
+      "PackagePath": "staticwebassets\\images\\account\\Java.jpg"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\Javascript.jpg",
+      "PackagePath": "staticwebassets\\images\\account\\Javascript.jpg"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\React.jpg",
+      "PackagePath": "staticwebassets\\images\\account\\React.jpg"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\TypeScript.png",
+      "PackagePath": "staticwebassets\\images\\account\\TypeScript.png"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\default-profile.png",
+      "PackagePath": "staticwebassets\\images\\account\\default-profile.png"
+    },
+    {
+      "Id": "D:\\Aptech\\API-Angular-Example\\API\\wwwroot\\images\\account\\postman.jpg",
+      "PackagePath": "staticwebassets\\images\\account\\postman.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.API.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.API.props",
+      "PackagePath": "build\\API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.API.props",
+      "PackagePath": "buildMultiTargeting\\API.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.API.props",
+      "PackagePath": "buildTransitive\\API.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

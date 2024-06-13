@@ -32,17 +32,11 @@ export class AuthService {
   //=================================================
   refreshToken(refresh_Token: string): Observable<ResModel> {
     try {
-      if (!refresh_Token) {
-        return throwError(() => new Error('No user information available'));
-      }
-      const header = new HttpHeaders().set(
-        'Content-Type',
-        'application/json; charset=utf-8'
-      );
+      let form = new FormData();
+      form.append('refreshToken', refresh_Token);
       return this.httpClient.post<ResModel>(
         this.baseURL + this.ENDPOINT.AUTH.REFRESH_TOKEN,
-        JSON.stringify(refresh_Token),
-        { headers: header }
+        form
       );
     } catch {
       return throwError(() => new Error('Failed to parse user information'));

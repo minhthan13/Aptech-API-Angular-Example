@@ -1,8 +1,15 @@
 @if(formAddNewEployee){
-<p-dialog header="Create" [modal]="true" [(visible)]="isOpen">
+<p-dialog
+  header="Create"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [style]="{ width: '50vw' }"
+  [modal]="true"
+  [(visible)]="isOpen"
+>
   <span class="p-text-secondary block mb-5">Add New Employee</span>
+  <hr class="surface-border mb-5" />
   <form [formGroup]="formAddNewEployee" (ngSubmit)="addNew()">
-    <div class="flex flex-row column-gap-4 justify-content-between">
+    <div class="flex flex-grow-0 justify-content-around">
       <div class="left">
         <div class="flex align-items-center gap-2 mb-3">
           <label class="font-semibold w-6rem">Username</label>
